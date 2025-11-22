@@ -5,13 +5,14 @@ import ControlPanel from './components/ControlPanel';
 import { getTithiFromAngle, getDateFromAngle, getAngleFromDate } from './utils/moonMath';
 import { TithiInfo, Paksha } from './types';
 import { TITHI_MEANINGS } from './constants';
-import { Calendar, RotateCcw } from 'lucide-react';
+import { Calendar, RotateCcw, Layers, Zap } from 'lucide-react';
 
 const App: React.FC = () => {
   // Master state is the Angle (Elongation).
   // 0 = Amavasya, 180 = Purnima, 360 = Amavasya
   const [angle, setAngle] = useState<number>(0);
   const [date, setDate] = useState<Date>(new Date());
+  const [complexityLevel, setComplexityLevel] = useState<'basic' | 'advanced'>('basic');
   
   // Derived state
   const [tithi, setTithi] = useState<TithiInfo | null>(null);
@@ -107,10 +108,10 @@ const App: React.FC = () => {
       </header>
 
       {/* Unified Control Bar (Top) */}
-      <div className="w-full max-w-5xl z-20 mb-8 bg-slate-800/80 backdrop-blur-md p-3 rounded-2xl border border-slate-700 shadow-2xl animate-in fade-in slide-in-from-top-4 duration-700 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="w-full max-w-5xl z-20 mb-8 bg-slate-800/80 backdrop-blur-md p-3 rounded-2xl border border-slate-700 shadow-2xl animate-in fade-in slide-in-from-top-4 duration-700 flex flex-col lg:flex-row items-center justify-between gap-4">
         
         {/* Left: Date & Reset */}
-        <div className="flex items-center gap-3 bg-slate-900/50 px-4 py-2 rounded-xl border border-slate-700/50">
+        <div className="flex items-center gap-3 bg-slate-900/50 px-4 py-2 rounded-xl border border-slate-700/50 w-full lg:w-auto justify-center">
             <div className="flex items-center gap-2 text-indigo-300 border-r border-slate-600 pr-3">
                 <Calendar className="w-4 h-4" />
             </div>
@@ -129,14 +130,30 @@ const App: React.FC = () => {
             </button>
         </div>
 
-        {/* Center/Right: Playback & Slider */}
-        <div className="flex-1 w-full md:w-auto">
+        {/* Center: Playback & Slider */}
+        <div className="flex-1 w-full lg:w-auto">
              <ControlPanel 
               angle={angle}
               setAngle={handleAngleChange}
               onAutoPlay={togglePlay}
               isPlaying={isPlaying}
             />
+        </div>
+
+        {/* Right: Level Toggle */}
+        <div className="flex items-center bg-slate-900/50 p-1 rounded-xl border border-slate-700/50 w-full lg:w-auto justify-center">
+          <button
+            onClick={() => setComplexityLevel('basic')}
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${complexityLevel === 'basic' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-indigo-300'}`}
+          >
+            <Layers className="w-3 h-3" /> Level 1
+          </button>
+          <button
+            onClick={() => setComplexityLevel('advanced')}
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${complexityLevel === 'advanced' ? 'bg-purple-600 text-white shadow-lg' : 'text-slate-400 hover:text-purple-300'}`}
+          >
+            <Zap className="w-3 h-3" /> Level 2
+          </button>
         </div>
       </div>
 
@@ -176,11 +193,17 @@ const App: React.FC = () => {
         <div className="bg-slate-900/40 backdrop-blur-sm border border-slate-700/50 rounded-3xl p-6 flex flex-col items-center shadow-2xl">
              <div className="text-center mb-2">
                 <h2 className="text-lg font-bold text-slate-200">Space Perspective</h2>
-                <p className="text-[10px] text-slate-500 uppercase tracking-wider">Drag Moon to Change Phase</p>
+                <p className="text-[10px] text-slate-500 uppercase tracking-wider">
+                  {complexityLevel === 'basic' ? 'Drag Moon to Change Phase' : 'Drag Moon | Align Nodes for Eclipse'}
+                </p>
             </div>
 
             <div className="relative w-full flex justify-center items-center py-4">
-               <OrbitRender angle={angle} onAngleChange={handleAngleChange} />
+               <OrbitRender 
+                  angle={angle} 
+                  onAngleChange={handleAngleChange} 
+                  level={complexityLevel}
+               />
             </div>
 
             {/* Stats Grid */}
