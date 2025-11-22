@@ -52,9 +52,9 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
 
       {/* Slider */}
       <div className="flex-1 w-full px-2 relative group">
-        <div className="flex justify-between text-[10px] text-slate-500 uppercase font-bold tracking-widest absolute -top-4 w-full px-1">
+        <div className="flex justify-between text-[10px] text-slate-300 uppercase font-bold tracking-widest absolute -top-4 w-full px-1">
             <span>Amavasya</span>
-            <span className="hidden sm:inline">Purnima</span>
+            <span className="hidden sm:inline text-indigo-200">Purnima</span>
             <span>Amavasya</span>
         </div>
         <input 
