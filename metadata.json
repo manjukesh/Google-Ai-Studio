@@ -1,0 +1,5 @@
+{
+  "name": "Moon Phase Simulator",
+  "description": "An interactive lunar phase simulator utilizing the Vedic 12-degree Tithi system. Visualizes the synodic month from Amavasya to Purnima and back, synchronized with date and astronomical degrees. Features AI-powered insights into Tithi significance.",
+  "requestFramePermissions": []
+}
