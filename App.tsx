@@ -95,38 +95,38 @@ const App: React.FC = () => {
 
   return (
     <div 
-      className="h-screen bg-slate-950 text-white flex flex-col items-center py-2 px-4 relative overflow-hidden"
+      className="min-h-screen bg-slate-950 text-white flex flex-col items-center py-4 px-4 relative overflow-x-hidden pb-12"
     >
       {/* Static Background Gradient Overlay */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black pointer-events-none"></div>
       
       {/* Header */}
-      <header className="text-center mb-2 z-10 flex-shrink-0">
-        <h1 className="text-2xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-200 to-purple-400 font-serif drop-shadow-md">
+      <header className="text-center mb-4 lg:mb-2 z-10">
+        <h1 className="text-2xl lg:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-200 to-purple-400 font-serif drop-shadow-md">
           Moon Phase Simulator
         </h1>
       </header>
 
       {/* Unified Control Bar (Top) */}
-      <div className="w-full max-w-5xl z-20 mb-2 bg-slate-900/80 backdrop-blur-md p-2 rounded-xl border border-slate-700/50 shadow-sm flex flex-col lg:flex-row items-center justify-between gap-2 flex-shrink-0">
+      <div className="w-full max-w-5xl z-20 mb-6 lg:mb-4 bg-slate-900/80 backdrop-blur-md p-3 rounded-xl border border-slate-700/50 shadow-lg flex flex-col lg:flex-row items-center justify-between gap-4 lg:gap-2">
         
         {/* Left: Date & Reset */}
-        <div className="flex items-center gap-2 bg-slate-950/50 px-3 py-1.5 rounded-lg border border-slate-700/30 w-full lg:w-auto justify-center">
+        <div className="flex items-center gap-2 bg-slate-950/50 px-3 py-2 rounded-lg border border-slate-700/30 w-full lg:w-auto justify-center shadow-inner">
             <div className="flex items-center gap-2 text-indigo-300 border-r border-slate-600 pr-2">
-                <Calendar className="w-3.5 h-3.5" />
+                <Calendar className="w-4 h-4" />
             </div>
             <input 
                 type="date" 
                 value={formatDateForInput(date)}
                 onChange={(e) => e.target.value && handleDateChange(new Date(e.target.value))}
-                className="bg-transparent text-white text-xs font-mono focus:outline-none w-24 sm:w-auto"
+                className="bg-transparent text-white text-sm font-mono focus:outline-none w-full lg:w-auto"
             />
             <button 
                 onClick={handleReset}
                 className="ml-1 p-1 rounded-full hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
                 title="Reset to Today"
             >
-                <RotateCcw className="w-3 h-3" />
+                <RotateCcw className="w-4 h-4" />
             </button>
         </div>
 
@@ -144,64 +144,63 @@ const App: React.FC = () => {
         <div className="flex items-center bg-slate-950/50 p-1 rounded-lg border border-slate-700/30 w-full lg:w-auto justify-center">
           <button
             onClick={() => setComplexityLevel('basic')}
-            className={`flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-bold transition-all ${complexityLevel === 'basic' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-400 hover:text-indigo-300'}`}
+            className={`flex-1 lg:flex-none flex items-center justify-center gap-1 px-3 py-1.5 rounded-md text-xs font-bold transition-all ${complexityLevel === 'basic' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-400 hover:text-indigo-300'}`}
           >
-            <Layers className="w-3 h-3" /> L1
+            <Layers className="w-3.5 h-3.5" /> L1
           </button>
           <button
             onClick={() => setComplexityLevel('advanced')}
-            className={`flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-bold transition-all ${complexityLevel === 'advanced' ? 'bg-purple-600 text-white shadow-md' : 'text-slate-400 hover:text-purple-300'}`}
+            className={`flex-1 lg:flex-none flex items-center justify-center gap-1 px-3 py-1.5 rounded-md text-xs font-bold transition-all ${complexityLevel === 'advanced' ? 'bg-purple-600 text-white shadow-md' : 'text-slate-400 hover:text-purple-300'}`}
           >
-            <Zap className="w-3 h-3" /> L2
+            <Zap className="w-3.5 h-3.5" /> L2
           </button>
         </div>
       </div>
 
       {/* Main Visual Grid: Parallel Views */}
-      <main className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-4 z-10 mb-2 flex-1 min-h-0">
+      <main className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4 z-10 mb-8">
         
         {/* Earth View Card */}
-        <div className="bg-slate-900/60 backdrop-blur-sm border border-slate-700/40 rounded-2xl p-3 flex flex-col items-center shadow-xl overflow-hidden">
-            <div className="text-center mb-1 flex-shrink-0">
-                <h2 className="text-sm font-bold text-slate-200">Earth Perspective</h2>
+        <div className="bg-slate-900/60 backdrop-blur-sm border border-slate-700/40 rounded-2xl p-4 flex flex-col items-center shadow-xl overflow-hidden min-h-[400px]">
+            <div className="text-center mb-2">
+                <h2 className="text-sm lg:text-base font-bold text-slate-200">Earth Perspective</h2>
             </div>
 
-            <div className="relative group w-full flex justify-center items-center py-2 flex-1 min-h-0">
-                 {/* Scale down rendering slightly to fit */}
-                 <div className="scale-90 origin-center">
+            <div className="relative group w-full flex justify-center items-center py-4 flex-1">
+                 <div className="scale-95 md:scale-100 origin-center">
                     <MoonRender angle={angle} />
                  </div>
             </div>
 
-            <div className="text-center mb-2 flex-shrink-0">
+            <div className="text-center mb-4">
                 <p className="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Angle between Sun & Moon</p>
-                <p className="text-lg font-mono text-indigo-300">{angle.toFixed(1)}°</p>
+                <p className="text-xl font-mono text-indigo-300">{angle.toFixed(1)}°</p>
             </div>
 
-            <div className="w-full bg-slate-950/50 rounded-lg p-2 border border-slate-700/50 flex-shrink-0">
-                <div className="flex items-center justify-between mb-1">
-                    <span className="text-lg font-bold text-indigo-300">{tithi?.name}</span>
-                    <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${tithi?.paksha === Paksha.Shukla ? 'bg-indigo-500/20 text-indigo-300' : 'bg-purple-500/20 text-purple-300'}`}>
+            <div className="w-full bg-slate-950/50 rounded-xl p-3 border border-slate-700/50">
+                <div className="flex items-center justify-between mb-2">
+                    <span className="text-xl font-bold text-indigo-300">{tithi?.name}</span>
+                    <span className={`px-2 py-1 rounded text-xs font-bold uppercase ${tithi?.paksha === Paksha.Shukla ? 'bg-indigo-500/20 text-indigo-300' : 'bg-purple-500/20 text-purple-300'}`}>
                      {tithi?.paksha}
                    </span>
                 </div>
-                <p className="text-slate-400 text-xs italic border-t border-slate-700/50 pt-1 line-clamp-2">
+                <p className="text-slate-400 text-sm italic border-t border-slate-700/50 pt-2">
                   {TITHI_MEANINGS[tithi?.name || ""]}
                 </p>
             </div>
         </div>
 
         {/* Space View Card */}
-        <div className="bg-slate-900/60 backdrop-blur-sm border border-slate-700/40 rounded-2xl p-3 flex flex-col items-center shadow-xl overflow-hidden">
-             <div className="text-center mb-1 flex-shrink-0">
-                <h2 className="text-sm font-bold text-slate-200">Space Perspective</h2>
-                <p className="text-[9px] text-slate-500 uppercase tracking-wider">
+        <div className="bg-slate-900/60 backdrop-blur-sm border border-slate-700/40 rounded-2xl p-4 flex flex-col items-center shadow-xl overflow-hidden min-h-[400px]">
+             <div className="text-center mb-2">
+                <h2 className="text-sm lg:text-base font-bold text-slate-200">Space Perspective</h2>
+                <p className="text-[10px] text-slate-500 uppercase tracking-wider mt-1">
                   {complexityLevel === 'basic' ? 'Drag Moon to Change Phase' : 'Drag Moon | Align Nodes'}
                 </p>
             </div>
 
-            <div className="relative w-full flex justify-center items-center py-2 flex-1 min-h-0">
-               <div className="scale-90 origin-center">
+            <div className="relative w-full flex justify-center items-center py-4 flex-1">
+               <div className="scale-95 md:scale-100 origin-center">
                   <OrbitRender 
                       angle={angle} 
                       onAngleChange={handleAngleChange} 
@@ -211,21 +210,21 @@ const App: React.FC = () => {
             </div>
 
             {/* Stats Grid */}
-            <div className="mt-2 w-full grid grid-cols-2 gap-2 flex-shrink-0">
-               <div className="bg-slate-950/50 p-2 rounded-lg border border-slate-700/50">
-                  <span className="text-[9px] text-slate-500 uppercase font-bold block">Elongation</span>
-                  <span className="text-sm font-mono text-indigo-400">{angle.toFixed(1)}°</span>
+            <div className="mt-4 w-full grid grid-cols-2 gap-3">
+               <div className="bg-slate-950/50 p-3 rounded-lg border border-slate-700/50">
+                  <span className="text-[10px] text-slate-500 uppercase font-bold block mb-1">Elongation</span>
+                  <span className="text-base font-mono text-indigo-400">{angle.toFixed(1)}°</span>
                </div>
-               <div className="bg-slate-950/50 p-2 rounded-lg border border-slate-700/50">
-                  <span className="text-[9px] text-slate-500 uppercase font-bold block">Illumination</span>
-                  <span className="text-sm font-mono text-purple-400">
+               <div className="bg-slate-950/50 p-3 rounded-lg border border-slate-700/50">
+                  <span className="text-[10px] text-slate-500 uppercase font-bold block mb-1">Illumination</span>
+                  <span className="text-base font-mono text-purple-400">
                     {((1 - Math.cos(angle * Math.PI / 180)) / 2 * 100).toFixed(0)}%
                   </span>
                </div>
-               <div className="bg-slate-950/50 p-2 rounded-lg border border-slate-700/50 col-span-2">
-                  <span className="text-[9px] text-slate-500 uppercase font-bold block">Tithi Progress</span>
-                  <span className="text-xs text-slate-300">
-                     {tithi?.index}/30 <span className="text-slate-500 mx-1">|</span> {tithi?.index <= 15 ? tithi?.index : tithi?.index - 15} of Paksha
+               <div className="bg-slate-950/50 p-3 rounded-lg border border-slate-700/50 col-span-2">
+                  <span className="text-[10px] text-slate-500 uppercase font-bold block mb-1">Tithi Progress</span>
+                  <span className="text-sm text-slate-300">
+                     {tithi?.index}/30 <span className="text-slate-500 mx-2">|</span> {tithi?.index && tithi.index <= 15 ? tithi.index : (tithi?.index || 16) - 15} of Paksha
                   </span>
                </div>
             </div>
@@ -233,12 +232,12 @@ const App: React.FC = () => {
 
       </main>
 
-      {/* Tithi Selector (Bottom) - Compacted */}
-      <div className="w-full max-w-6xl z-10 mb-1 flex-shrink-0">
+      {/* Tithi Selector (Bottom) */}
+      <div className="w-full max-w-6xl z-10">
           <TithiSelector currentAngle={angle} onSelect={handleAngleChange} />
       </div>
       
-      <div className="text-slate-600 text-[10px] pb-1 font-medium z-10 flex-shrink-0">
+      <div className="text-slate-600 text-xs mt-6 font-medium z-10">
          © {new Date().getFullYear()} Chandra Krama
       </div>
     </div>
